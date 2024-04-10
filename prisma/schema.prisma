@@ -18,4 +18,5 @@ model Product {
   color String?
   isNew Boolean? @default(false)
   isSale Boolean? @default(false)
+  category String? @default("all")
 }

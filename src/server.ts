@@ -3,6 +3,7 @@ import * as bodyParser from 'body-parser'
 import * as dotenv from 'dotenv'
 import * as express from 'express'
 import { z } from 'zod'
+import cors = require('cors')
 
 dotenv.config()
 const app = express()
@@ -10,6 +11,7 @@ const port = process.env.PORT || 3000
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
+app.use(cors())
 
 const prisma = new PrismaClient()
 
@@ -17,7 +19,8 @@ app.get('/', (req: express.Request, res: express.Response) => {
   return res.status(200).send({ message: 'Server Running', date: new Date() })
 })
 
-app.get('/products', async (req: express.Request, res: express.Response) => {
+app.get('/products', async (_: express.Request, res: express.Response) => {
+  await new Promise((resolve) => setTimeout(resolve, 3000))
   const products = await prisma.product.findMany()
   return res.status(200).send(products)
 })
@@ -25,13 +28,14 @@ app.get('/products', async (req: express.Request, res: express.Response) => {
 const newProductSchema = z.object({
   name: z.string().max(100),
   price: z.number().multipleOf(0.01),
-  oldPrice: z.number().multipleOf(0.01).optional(),
+  oldPrice: z.number().multipleOf(0.01).nullable().optional(),
   imgUrl: z.string(),
-  discountValue: z.number().optional(),
-  stars: z.number().positive().gte(0).lte(5),
-  color: z.string().optional(),
-  isNew: z.boolean().optional(),
-  isSale: z.boolean().optional(),
+  discountValue: z.number().nullable().optional(),
+  stars: z.number().positive().gte(0).lte(5).nullable().optional(),
+  color: z.string().nullable().optional(),
+  category: z.string().nullable().optional(),
+  isNew: z.boolean().nullable().optional(),
+  isSale: z.boolean().nullable().optional(),
 })
 
 app.post(
