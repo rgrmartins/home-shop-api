@@ -12,6 +12,7 @@ async function main() {
           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuEHVjr6m9IxU2hh1YjWOelaKeRtdiZlyANqIHgKpsKVio_u5u_-WJuEtPNQ2HQ9gNcoA&usqp=CAU',
         stars: 4,
         color: 'orange',
+        category: 'Living Room',
       },
       {
         name: 'Kit Cups',
@@ -40,6 +41,7 @@ async function main() {
         stars: 5,
         color: 'gold',
         isNew: true,
+        category: 'Room',
       },
     ],
   })
