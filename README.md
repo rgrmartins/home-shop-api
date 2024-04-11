@@ -12,6 +12,7 @@ This backend is responsible to building a Node.js/Express.js app that will serve
 - SQLite
 - Jest
 - Zod
+- Typescript
 
 ## Data Models
 
