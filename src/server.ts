@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client'
-import * as bodyParser from 'body-parser'
-import * as dotenv from 'dotenv'
-import * as express from 'express'
+import bodyParser from 'body-parser'
+import dotenv from 'dotenv'
+import express from 'express'
 import { z } from 'zod'
 import cors = require('cors')
 
@@ -23,7 +23,7 @@ app.get('/products', async (req: express.Request, res: express.Response) => {
   const { category, orderPrice } = req.query
 
   if (orderPrice && orderPrice !== 'asc' && orderPrice !== 'desc') {
-    return res.status(400).send('Invalid orderPrice parameter')
+    return res.status(400).send({ message: 'Invalid orderPrice parameter' })
   }
 
   const products = await prisma.product.findMany({
@@ -65,7 +65,7 @@ app.post(
         },
       })
       return res
-        .status(200)
+        .status(201)
         .send({ message: 'Product Added successfully', data: product })
     } catch (error) {
       const errors = []
@@ -113,9 +113,10 @@ app.get('/product/:id', async (req: express.Request, res: express.Response) => {
 })
 
 try {
-  app.listen(port, async () => {
-    console.log(`[SERVER]: Server is running at http://localhost:${port}`)
-  })
+  app.listen(port)
+  console.log(`[SERVER]: Server is running at http://localhost:${port}`)
 } catch (error) {
   console.log(`Error ocurred ${(error as Error).message}`)
 }
+
+export default app

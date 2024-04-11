@@ -36,6 +36,11 @@ The API requires [Node.js](https://nodejs.org/en/) to be installed. We recommend
 
 1. Then run `pnpm dev` which should start the server.
 
+## Tests
+1. Is necessary run before the migrations and seed command.
+
+1. To run the tests, run the `pnpm test` command
+
 ## Technical Notes
 
 - The server is running with [nodemon](https://nodemon.io/) which will automatically restart for you when you modify and save a file.
