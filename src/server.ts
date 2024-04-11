@@ -19,9 +19,23 @@ app.get('/', (req: express.Request, res: express.Response) => {
   return res.status(200).send({ message: 'Server Running', date: new Date() })
 })
 
-app.get('/products', async (_: express.Request, res: express.Response) => {
-  await new Promise((resolve) => setTimeout(resolve, 3000))
-  const products = await prisma.product.findMany()
+app.get('/products', async (req: express.Request, res: express.Response) => {
+  const { category, orderPrice } = req.query
+
+  if (orderPrice && orderPrice !== 'asc' && orderPrice !== 'desc') {
+    return res.status(400).send('Invalid orderPrice parameter')
+  }
+
+  const products = await prisma.product.findMany({
+    where: {
+      category: category ? (category as string) : undefined,
+    },
+    orderBy: [
+      {
+        price: orderPrice ? (orderPrice === 'asc' ? 'asc' : 'desc') : undefined,
+      },
+    ],
+  })
   return res.status(200).send(products)
 })
 
